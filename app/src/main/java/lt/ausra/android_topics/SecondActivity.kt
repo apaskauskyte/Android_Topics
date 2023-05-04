@@ -1,27 +1,19 @@
 package lt.ausra.android_topics
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Application
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+class SecondActivity : AppCompatActivity() {
 
-    lateinit var openButton: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_second)
 
-
-        openButton = findViewById(R.id.openButton)
         timber("onCreate")
-
-        openButton.setOnClickListener {
-            startActivity(Intent(this, SecondActivity::class.java))
-        }
     }
+
     override fun onStart() {
         super.onStart()
         timber("onStart")
