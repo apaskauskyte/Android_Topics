@@ -1,5 +1,6 @@
 package lt.ausra.android_topics
 
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import timber.log.Timber
 
@@ -14,6 +15,11 @@ open class ActivityLifeCycles : AppCompatActivity() {
             ********************
         """.trimIndent()
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        timber("onCreate")
     }
 
     override fun onStart() {
