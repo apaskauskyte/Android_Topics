@@ -17,31 +17,31 @@
 
         <EditText
             android:id="@+id/idEditText"
-            android:saveEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:gravity="center"
+            android:saveEnabled="false"
             android:text="id"
             android:textSize="20sp" />
 
         <EditText
             android:id="@+id/text01EditText"
-            android:saveEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:gravity="center"
+            android:saveEnabled="false"
             android:text="text01"
             android:textSize="20sp" />
 
         <EditText
             android:id="@+id/text02EditText"
-            android:saveEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:gravity="center"
+            android:saveEnabled="false"
             android:text="text02"
             android:textSize="20sp" />
     </LinearLayout>
@@ -51,8 +51,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
+        android:layout_marginLeft="96dp"
         android:layout_marginBottom="32dp"
         android:text="Close" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="224dp"
+        android:layout_marginBottom="32dp"
+        android:text="Save" />
 
 </RelativeLayout>
