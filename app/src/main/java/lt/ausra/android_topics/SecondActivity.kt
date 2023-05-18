@@ -48,6 +48,7 @@ class SecondActivity : ActivityLifeCycles() {
             putString(SECOND_ACTIVITY_ITEM_ID, idEditText.text.toString())
             putString(SECOND_ACTIVITY_ITEM_TEXT01, text01EditText.text.toString())
             putString(SECOND_ACTIVITY_ITEM_TEXT02, text02EditText.text.toString())
+            putInt(SECOND_ACTIVITY_FINISH_INTENT_STATUS, finishIntentStatus)
         }
         super.onSaveInstanceState(outState)
     }
@@ -59,6 +60,7 @@ class SecondActivity : ActivityLifeCycles() {
             idEditText.setText(this.getString(SECOND_ACTIVITY_ITEM_ID))
             text01EditText.setText(this.getString(SECOND_ACTIVITY_ITEM_TEXT01))
             text02EditText.setText(this.getString(SECOND_ACTIVITY_ITEM_TEXT02))
+            finishIntentStatus = this.getInt(SECOND_ACTIVITY_FINISH_INTENT_STATUS)
         }
     }
 
@@ -99,6 +101,8 @@ class SecondActivity : ActivityLifeCycles() {
         const val SECOND_ACTIVITY_ITEM_ID = "lt.ausra.android_topics.secondactivity_Item_Id"
         const val SECOND_ACTIVITY_ITEM_TEXT01 = "lt.ausra.android_topics.secondactivity_text01"
         const val SECOND_ACTIVITY_ITEM_TEXT02 = "lt.ausra.android_topics.secondactivity_text02"
+        const val SECOND_ACTIVITY_FINISH_INTENT_STATUS =
+            "lt.ausra.android_topics.secondactivity_finish_intent_status"
         const val SECOND_ACTIVITY_ITEM_INTENT_RETURN_NEW = 101
         const val SECOND_ACTIVITY_ITEM_INTENT_RETURN_UPDATE = 102
     }

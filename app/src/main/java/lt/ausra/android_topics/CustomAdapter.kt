@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
 import lt.ausra.android_topics.databinding.ItemBinding
 
 class CustomAdapter(context: Context) : BaseAdapter() {
@@ -44,7 +43,6 @@ class CustomAdapter(context: Context) : BaseAdapter() {
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-//        val view = convertView ?: inflater.inflate(R.layout.item, parent, false)
 
         var view = convertView
 
@@ -57,10 +55,6 @@ class CustomAdapter(context: Context) : BaseAdapter() {
         } else {
             binding = view.tag as ItemBinding
         }
-//
-//        view.findViewById<TextView>(R.id.idTextView).text = list[position].id.toString()
-//        view.findViewById<TextView>(R.id.text01TextView).text = list[position].text01
-//        view.findViewById<TextView>(R.id.text02TextView).text = list[position].text02
 
         binding.idTextView.text = list[position].id.toString()
         binding.text01TextView.text = list[position].text01

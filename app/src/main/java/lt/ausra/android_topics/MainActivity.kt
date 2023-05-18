@@ -1,31 +1,21 @@
 package lt.ausra.android_topics
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ListView
 import androidx.activity.result.contract.ActivityResultContracts
 import lt.ausra.android_topics.databinding.ActivityMainBinding
-import timber.log.Timber
 
 class MainActivity : ActivityLifeCycles() {
 
-//    private lateinit var openButton: Button
     private lateinit var adapter: CustomAdapter
-//    private lateinit var itemListView: ListView
+
     private var itemIndex = -1
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-//        openButton = findViewById(R.id.openButton)
-//        itemListView = findViewById(R.id.itemListView)
 
         val items = mutableListOf<Item>()
         generateListOfItems(items)
@@ -34,6 +24,18 @@ class MainActivity : ActivityLifeCycles() {
         updateAdapter(items)
         openSecondActivity()
         setClickOpenItemDetails()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(MAIN_ACTIVITY_SAVE_INSTANCE_STATE_ITEM_INDEX, itemIndex)
+        timber("onSaveInstanceState \nindex value is $itemIndex")
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        itemIndex = savedInstanceState.getInt(MAIN_ACTIVITY_SAVE_INSTANCE_STATE_ITEM_INDEX)
+        timber("onRestoreInstanceState \nindex value is $itemIndex")
     }
 
     private fun generateListOfItems(items: MutableList<Item>) {
@@ -50,7 +52,6 @@ class MainActivity : ActivityLifeCycles() {
 
     private fun setUpListView() {
         adapter = CustomAdapter(this)
-//        itemListView.adapter = adapter
         binding.itemListView.adapter = adapter
     }
 
@@ -68,7 +69,6 @@ class MainActivity : ActivityLifeCycles() {
 
     private fun openSecondActivity() {
         binding.openButton.setOnClickListener {
-//            startActivity(Intent(this, SecondActivity::class.java))
             startActivityForResult.launch(Intent(this, SecondActivity::class.java))
         }
     }
@@ -128,5 +128,7 @@ class MainActivity : ActivityLifeCycles() {
         const val MAIN_ACTIVITY_ITEM_ID = "lt.ausra.android_topics_Item_Id"
         const val MAIN_ACTIVITY_ITEM_TEXT01 = "lt.ausra.android_topics_Item_text01"
         const val MAIN_ACTIVITY_ITEM_TEXT02 = "lt.ausra.android_topics_Item_text02"
+        const val MAIN_ACTIVITY_SAVE_INSTANCE_STATE_ITEM_INDEX =
+            "lt.ausra.android_topics_Save_Instance_state_item_index"
     }
 }
