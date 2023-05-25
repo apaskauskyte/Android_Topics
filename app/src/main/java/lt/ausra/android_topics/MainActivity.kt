@@ -25,6 +25,7 @@ class MainActivity : ActivityLifeCycles() {
 
         openSecondActivity()
         setClickOpenItemDetails()
+        // code from dev branch
     }
 
     private fun generateListOfItems(items: MutableList<Item>) {
