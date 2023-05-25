@@ -1,15 +1,15 @@
 package lt.ausra.android_topics
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import lt.ausra.android_topics.databinding.ActivityMainBinding
 
 class MainActivity : ActivityLifeCycles() {
 
     private lateinit var adapter: CustomAdapter
-
-    private var itemIndex = -1
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,20 +22,9 @@ class MainActivity : ActivityLifeCycles() {
 
         setUpListView()
         updateAdapter(items)
+
         openSecondActivity()
         setClickOpenItemDetails()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(MAIN_ACTIVITY_SAVE_INSTANCE_STATE_ITEM_INDEX, itemIndex)
-        timber("onSaveInstanceState \nindex value is $itemIndex")
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        itemIndex = savedInstanceState.getInt(MAIN_ACTIVITY_SAVE_INSTANCE_STATE_ITEM_INDEX)
-        timber("onRestoreInstanceState \nindex value is $itemIndex")
     }
 
     private fun generateListOfItems(items: MutableList<Item>) {
@@ -69,19 +58,20 @@ class MainActivity : ActivityLifeCycles() {
 
     private fun openSecondActivity() {
         binding.openButton.setOnClickListener {
-            startActivityForResult.launch(Intent(this, SecondActivity::class.java))
+            val intent = Intent(this, SecondActivity::class.java)
+            val id = adapter.getMaxID().inc()
+            intent.putExtra(MAIN_ACTIVITY_ITEM_ID, id)
+
+            startActivityForResult.launch(intent)
         }
     }
 
     private fun setClickOpenItemDetails() {
         binding.itemListView.setOnItemClickListener { adapterView, view, position, l ->
             val item: Item = adapterView.getItemAtPosition(position) as Item
-            itemIndex = position
 
             val itemIntent = Intent(this, SecondActivity::class.java)
-            itemIntent.putExtra(MAIN_ACTIVITY_ITEM_ID, item.id)
-            itemIntent.putExtra(MAIN_ACTIVITY_ITEM_TEXT01, item.text01)
-            itemIntent.putExtra(MAIN_ACTIVITY_ITEM_TEXT02, item.text02)
+            itemIntent.putExtra(MAIN_ACTIVITY_ITEM_INTENT_OBJECT, item)
 
             startActivityForResult.launch(itemIntent)
         }
@@ -89,46 +79,35 @@ class MainActivity : ActivityLifeCycles() {
 
     private val startActivityForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+            val item: Item?
+
             when (result.resultCode) {
                 SecondActivity.SECOND_ACTIVITY_ITEM_INTENT_RETURN_NEW -> {
-                    val item = Item(
-                        id = 111,
-                        text01 = result.data?.getStringExtra(
-                            SecondActivity.SECOND_ACTIVITY_ITEM_TEXT01
-                        ) ?: "",
-                        text02 = result.data?.getStringExtra(
-                            SecondActivity.SECOND_ACTIVITY_ITEM_TEXT02
-                        ) ?: ""
+                    item = getExtraFromParcelable(
+                        result.data,
+                        SecondActivity.SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT
                     )
 
-                    adapter.add(item)
+                    if (item != null) {
+                        adapter.add(item)
+                    }
                 }
 
                 SecondActivity.SECOND_ACTIVITY_ITEM_INTENT_RETURN_UPDATE -> {
-                    val item = Item(
-                        id = result.data?.getIntExtra(
-                            SecondActivity.SECOND_ACTIVITY_ITEM_ID, 0
-                        ) ?: 0,
-                        text01 = result.data?.getStringExtra(
-                            SecondActivity.SECOND_ACTIVITY_ITEM_TEXT01
-                        ) ?: "",
-                        text02 = result.data?.getStringExtra(
-                            SecondActivity.SECOND_ACTIVITY_ITEM_TEXT02
-                        ) ?: ""
+                    item = getExtraFromParcelable(
+                        result.data,
+                        SecondActivity.SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT
                     )
-
-                    if (itemIndex >= 0) {
-                        adapter.update(itemIndex, item)
-                    }
+                    adapter.update(item)
                 }
             }
         }
 
     companion object {
-        const val MAIN_ACTIVITY_ITEM_ID = "lt.ausra.android_topics_Item_Id"
-        const val MAIN_ACTIVITY_ITEM_TEXT01 = "lt.ausra.android_topics_Item_text01"
-        const val MAIN_ACTIVITY_ITEM_TEXT02 = "lt.ausra.android_topics_Item_text02"
-        const val MAIN_ACTIVITY_SAVE_INSTANCE_STATE_ITEM_INDEX =
-            "lt.ausra.android_topics_Save_Instance_state_item_index"
+        const val MAIN_ACTIVITY_ITEM_ID =
+            "lt.ausra.android_topics_Item_Id"
+        const val MAIN_ACTIVITY_ITEM_INTENT_OBJECT =
+            "lt.ausra.android_topics_Save_Instance_state_item_intent_object"
     }
 }
