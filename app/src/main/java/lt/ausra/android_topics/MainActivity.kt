@@ -26,6 +26,7 @@ class MainActivity : ActivityLifeCycles() {
         openSecondActivity()
         setClickOpenItemDetails()
         // comments just for merging purpose: commit01
+        // code from dev branch
     }
 
     private fun generateListOfItems(items: MutableList<Item>) {
