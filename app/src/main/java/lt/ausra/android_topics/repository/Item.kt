@@ -1,4 +1,4 @@
-package lt.ausra.android_topics
+package lt.ausra.android_topics.repository
 
 import android.os.Parcelable
 import kotlinx.parcelize.IgnoredOnParcel

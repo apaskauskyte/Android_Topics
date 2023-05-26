@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="lt.ausra.android_topics.Item" />
+            type="lt.ausra.android_topics.repository.Item" />
     </data>
 
     <LinearLayout

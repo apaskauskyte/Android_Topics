@@ -1,4 +1,4 @@
-package lt.ausra.android_topics
+package lt.ausra.android_topics.MainActivity
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import lt.ausra.android_topics.databinding.ItemBinding
+import lt.ausra.android_topics.repository.Item
 
 class CustomAdapter(context: Context) : BaseAdapter() {
 

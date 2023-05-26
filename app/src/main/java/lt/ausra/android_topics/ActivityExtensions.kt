@@ -3,6 +3,7 @@ package lt.ausra.android_topics
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
+import lt.ausra.android_topics.repository.Item
 
 fun Activity.getExtraFromParcelable(result: Intent?, keyName: String): Item? =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

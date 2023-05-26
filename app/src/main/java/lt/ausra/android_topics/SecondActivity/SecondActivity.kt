@@ -1,23 +1,38 @@
-package lt.ausra.android_topics
+package lt.ausra.android_topics.SecondActivity
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import lt.ausra.android_topics.ActivityLifeCycles
+import lt.ausra.android_topics.MainActivity.MainActivity
+import lt.ausra.android_topics.R
 import lt.ausra.android_topics.databinding.ActivitySecondBinding
+
 
 class SecondActivity : ActivityLifeCycles() {
 
     private lateinit var binding: ActivitySecondBinding
     private var finishIntentStatus = SECOND_ACTIVITY_ITEM_INTENT_RETURN_UPDATE
+    private val activityViewModel: SecondActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_second)
-        binding.item = getIntentExtra()
         binding.secondActivity = this
+
+        activityViewModel.itemLiveData.observe(
+            this,
+            Observer { item ->
+                binding.item = item
+            }
+        )
+
+        activityViewModel.fetchItem(getIntentExtra())
 
         getIntentExtra()
         // comments just for merging purpose: commit02
@@ -40,29 +55,8 @@ class SecondActivity : ActivityLifeCycles() {
         }
     }
 
-    private fun getIntentExtra(): Item {
-
-        if (intent.hasExtra(MainActivity.MAIN_ACTIVITY_ITEM_INTENT_OBJECT)) {
-
-            return getExtraFromParcelable(
-                intent,
-                MainActivity.MAIN_ACTIVITY_ITEM_INTENT_OBJECT
-            ) ?: Item(-1, "", "")
-
-        } else if (intent.hasExtra(MainActivity.MAIN_ACTIVITY_ITEM_ID)) {
-
-            finishIntentStatus = SECOND_ACTIVITY_ITEM_INTENT_RETURN_NEW
-
-            return Item(
-                intent.getIntExtra(MainActivity.MAIN_ACTIVITY_ITEM_ID, -1),
-                "",
-                ""
-            )
-        } else {
-            finishIntentStatus = RESULT_CANCELED
-            return Item(-1, "", "")
-        }
-    }
+    private fun getIntentExtra() =
+        intent.getIntExtra(MainActivity.MAIN_ACTIVITY_ITEM_ID, -1)
 
     fun onClickCloseButton(view: View) {
         finish()
