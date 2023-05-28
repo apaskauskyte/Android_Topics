@@ -30,7 +30,7 @@ class CustomAdapter(context: Context) : BaseAdapter() {
 
     fun update(item: Item?) {
         if (item != null) {
-            val index = list.indexOfFirst { it.id ==item.id }
+            val index = list.indexOfFirst { it.id == item.id }
             if (index >= 0) {
                 list[index] = item
                 notifyDataSetChanged()
@@ -59,6 +59,7 @@ class CustomAdapter(context: Context) : BaseAdapter() {
 
         if (view == null) {
             binding = ItemBinding.inflate(inflater, parent, false)
+//            binding = DataBindingUtil.inflate(inflater, R.layout.item, parent, false)
             view = binding.root
             view.tag = binding
         } else {

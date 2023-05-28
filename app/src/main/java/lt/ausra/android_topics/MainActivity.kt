@@ -1,9 +1,7 @@
 package lt.ausra.android_topics
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import lt.ausra.android_topics.databinding.ActivityMainBinding
 
@@ -11,6 +9,7 @@ class MainActivity : ActivityLifeCycles() {
 
     private lateinit var adapter: CustomAdapter
     private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
