@@ -1,19 +1,10 @@
 package lt.ausra.android_topics
 
-import android.app.Application
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import lt.ausra.android_topics.databinding.ActivitySecondBinding
-import lt.ausra.android_topics.databinding.ItemBinding
-import timber.log.Timber
 
 class SecondActivity : ActivityLifeCycles() {
 
@@ -73,19 +64,19 @@ class SecondActivity : ActivityLifeCycles() {
     }
 
     fun onClickCloseButton(view: View) {
-            finish()
+        finish()
     }
 
     fun onClickSaveButton() {
-            val finishIntent = Intent()
-            finishIntent.putExtra(SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT, binding.item)
+        val finishIntent = Intent()
+        finishIntent.putExtra(SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT, binding.item)
 
-            if (binding.idEditText.text.toString().toInt() < 0) {
-                finishIntentStatus = RESULT_CANCELED
-            }
+        if (binding.idEditText.text.toString().toInt() < 0) {
+            finishIntentStatus = RESULT_CANCELED
+        }
 
-            setResult(finishIntentStatus, finishIntent)
-            finish()
+        setResult(finishIntentStatus, finishIntent)
+        finish()
     }
 
     companion object {
