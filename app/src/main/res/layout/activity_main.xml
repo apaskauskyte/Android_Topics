@@ -2,16 +2,25 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".mainActivity.MainActivity">
-    
+
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="mainActivity"
             type="lt.ausra.android_topics.mainActivity.MainActivity" />
+
+        <variable
+            name="viewModel"
+            type="lt.ausra.android_topics.mainActivity.MainActivityViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <!-- salyga ? rezultatas01 : rezultatas02 -->
 
         <ListView
             android:id="@+id/itemListView"
@@ -20,15 +29,16 @@
             android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginRight="32dp"
-            android:layout_marginBottom="96dp" />
+            android:layout_marginBottom="96dp"
+            android:visibility="@{viewModel.isLoadingLiveData() ? View.GONE : View.VISIBLE}" />
 
         <ProgressBar
             android:id="@+id/loadingProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:visibility="visible"/>
+            android:layout_centerVertical="true"
+            android:visibility="@{viewModel.isLoadingLiveData() ? View.VISIBLE : View.GONE}" />
 
         <Button
             android:id="@+id/openButton"
@@ -38,6 +48,6 @@
             android:layout_centerInParent="true"
             android:layout_margin="32dp"
             android:onClick="@{mainActivity::openSecondActivity}"
-            android:text="Second Activity"/>
+            android:text="Second Activity" />
     </RelativeLayout>
 </layout>
