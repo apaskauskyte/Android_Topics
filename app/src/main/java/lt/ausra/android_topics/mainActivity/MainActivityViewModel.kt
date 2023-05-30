@@ -1,4 +1,4 @@
-package lt.ausra.android_topics.MainActivity
+package lt.ausra.android_topics.mainActivity
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

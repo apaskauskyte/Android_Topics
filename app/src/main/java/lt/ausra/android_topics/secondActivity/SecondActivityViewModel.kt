@@ -1,4 +1,4 @@
-package lt.ausra.android_topics.SecondActivity
+package lt.ausra.android_topics.secondActivity
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,6 +19,16 @@ class SecondActivityViewModel : ViewModel() {
                 _itemLiveData.value = ItemRepository.instance.getItem(itemId)
             } else {
                 _itemLiveData.value = Item(-1, "", "")
+            }
+        }
+    }
+
+    fun saveItem(item: Item) {
+        if (item != null) {
+            if (item.id > 0) {
+                ItemRepository.instance.updateItem(item)
+            } else {
+                ItemRepository.instance.addItem(item)
             }
         }
     }

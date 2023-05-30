@@ -1,4 +1,4 @@
-package lt.ausra.android_topics.MainActivity
+package lt.ausra.android_topics.mainActivity
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -25,6 +25,7 @@ class CustomAdapter(context: Context) : BaseAdapter() {
     }
 
     fun add(items: List<Item>) {
+        list.clear()
         list.addAll(items)
         notifyDataSetChanged()
     }
