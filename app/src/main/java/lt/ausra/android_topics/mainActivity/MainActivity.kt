@@ -4,9 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import lt.ausra.android_topics.ActivityLifeCycles
 import lt.ausra.android_topics.R
 import lt.ausra.android_topics.secondActivity.SecondActivity
@@ -47,12 +52,14 @@ class MainActivity : ActivityLifeCycles() {
     }
 
     private fun setUpObservables() {
-        activityViewModel.itemsLiveData.observe(
-            this,
-            Observer { listOfItems ->
-                adapter.add(listOfItems)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                activityViewModel.itemsStateFlow.collect{
+                    listOfItems ->
+                    adapter.add(listOfItems)
+                }
             }
-        )
+        }
     }
 
     private fun setClickOpenItemDetails() {
