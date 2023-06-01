@@ -61,10 +61,10 @@ class MainActivity : ActivityLifeCycles() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                activityViewModel.isDeletedUiState.collect {
-                    isDeleted ->
-                    if (isDeleted) {
+                activityViewModel.isDeletedUiState.collect { displayUiState ->
+                    if (displayUiState.isDeleted) {
                         displaySnackBar("Item was deleted from repository")
+                        adapter.remove(displayUiState.item)
                     } else {
                         displaySnackBar("Item wasn't deleted from repository")
                     }
@@ -101,7 +101,6 @@ class MainActivity : ActivityLifeCycles() {
             .setPositiveButton("Yes") {
                 _,_ ->
                 activityViewModel.deleteItem(item)
-                adapter.remove(item)
             }
             .setNegativeButton("No", null)
             .show()
