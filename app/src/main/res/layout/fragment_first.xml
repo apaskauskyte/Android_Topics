@@ -7,12 +7,13 @@
     tools:context=".first_fragment.FirstFragment">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="First Fragment"
         android:textColor="#213555"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <Button
