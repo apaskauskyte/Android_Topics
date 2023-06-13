@@ -24,6 +24,11 @@ class SecondFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.textView.text = arguments?.getString("name_of_key").toString()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -32,5 +37,4 @@ class SecondFragment : Fragment() {
     companion object {
         fun newInstance() = SecondFragment()
     }
-
 }
