@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
+import lt.ausra.android_topics.common.MainActivity
 import lt.ausra.android_topics.databinding.FragmentFirstBinding
 
 class FirstFragment : Fragment() {
@@ -31,6 +32,8 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        clickOpenButton()
+
 //        viewModel.fetchUsers()
         viewModel.fetchTopNews()
 
@@ -38,26 +41,25 @@ class FirstFragment : Fragment() {
         observeTopNewsStateFlow()
     }
 
+    private fun clickOpenButton() {
+        binding.openButton.setOnClickListener {
+            (activity as MainActivity).openSecondFragment()
+        }
+    }
+
     private fun userStateFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 viewModel.itemsStateFlow.collect { response ->
-                    //                    Log.i(TAG, "onViewCreated: ${listOfItems?.userList}")
                     val list = response?.userList
 
-                    //                    var myText = ""
-                    //
                     if (list != null) {
 
                         val stringBuilder = buildString {
                             list?.forEach { append("$it\n\n") }
                         }
                         binding.textView.text = stringBuilder
-
-                        //                        for (item in list) {
-                        //                            myText += "${item}\n\n"
-                        //                        }
 
                     }
                 }

@@ -19,14 +19,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openSecondFragment() {
-        setCurrentFragment(SecondFragment.newInstance(), SecondFragment.TAG)
+        setCurrentFragment(SecondFragment.newInstance(), SecondFragment.TAG, true)
     }
 
     private fun openFirstFragment() {
         setCurrentFragment(FirstFragment.newInstance(), FirstFragment.TAG)
     }
 
-    private fun setCurrentFragment(fragment: Fragment, tag: String) {
+    private fun setCurrentFragment(fragment: Fragment, tag: String, addBackStack: Boolean = false) {
         supportFragmentManager.commit {
             replace(
                 R.id.fragmentContainerView,
@@ -34,6 +34,10 @@ class MainActivity : AppCompatActivity() {
                 tag
             )
             setReorderingAllowed(true)
+
+            if (addBackStack) {
+                addToBackStack(tag)
+            }
         }
     }
 }
