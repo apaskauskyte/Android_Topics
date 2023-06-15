@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import lt.ausra.android_topics.R
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import lt.ausra.android_topics.databinding.FragmentFirstBinding
 
 class FirstFragment : Fragment() {
@@ -24,12 +27,34 @@ class FirstFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.fetchUsers()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                viewModel.itemsStateFlow.collect { response ->
+//                    Log.i(TAG, "onViewCreated: ${listOfItems?.userList}")
+                    val list = response?.userList
+
+                    val stringBuilder = buildString {
+                        list?.forEach { append("$it\n\n") }
+                    }
+                    binding.textView.text = stringBuilder
+                }
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
     companion object {
+        const val TAG = "my_first_fragment"
         fun newInstance() = FirstFragment()
     }
 }
