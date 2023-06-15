@@ -39,10 +39,20 @@ class FirstFragment : Fragment() {
 //                    Log.i(TAG, "onViewCreated: ${listOfItems?.userList}")
                     val list = response?.userList
 
-                    val stringBuilder = buildString {
-                        list?.forEach { append("$it\n\n") }
+//                    var myText = ""
+//
+                    if (list != null) {
+
+                        val stringBuilder = buildString {
+                            list?.forEach { append("$it\n\n") }
+                        }
+                        binding.textView.text = stringBuilder
+
+//                        for (item in list) {
+//                            myText += "${item}\n\n"
+//                        }
+
                     }
-                    binding.textView.text = stringBuilder
                 }
             }
         }
