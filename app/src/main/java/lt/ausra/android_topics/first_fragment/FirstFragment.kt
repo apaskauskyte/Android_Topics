@@ -1,6 +1,7 @@
 package lt.ausra.android_topics.first_fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,17 +31,23 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetchUsers()
+//        viewModel.fetchUsers()
+        viewModel.fetchTopNews()
 
+//        userStateFlow()
+        observeTopNewsStateFlow()
+    }
+
+    private fun userStateFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 viewModel.itemsStateFlow.collect { response ->
-//                    Log.i(TAG, "onViewCreated: ${listOfItems?.userList}")
+                    //                    Log.i(TAG, "onViewCreated: ${listOfItems?.userList}")
                     val list = response?.userList
 
-//                    var myText = ""
-//
+                    //                    var myText = ""
+                    //
                     if (list != null) {
 
                         val stringBuilder = buildString {
@@ -48,10 +55,31 @@ class FirstFragment : Fragment() {
                         }
                         binding.textView.text = stringBuilder
 
-//                        for (item in list) {
-//                            myText += "${item}\n\n"
-//                        }
+                        //                        for (item in list) {
+                        //                            myText += "${item}\n\n"
+                        //                        }
 
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeTopNewsStateFlow() {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                viewModel.topNewsStateFlow.collect { response ->
+                    val list = response?.articles
+
+                    Log.i(TAG, "onViewCreated: $list")
+
+                    if (list != null) {
+                        val stringBuilder = buildString {
+                            list?.forEach { append("$it\n\n") }
+                        }
+                        binding.textView.text = stringBuilder
                     }
                 }
             }
